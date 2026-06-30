@@ -9070,7 +9070,6 @@ beam   chose 'BB'  (overall prob 0.427)
 </div>
 <div class="jp-InputArea jp-Cell-inputArea"><div class="jp-InputPrompt jp-InputArea-prompt">
 </div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput" data-mime-type="text/markdown">
-<hr/>
 <h2 id="Encoder-Decoder-Architecture">Encoder-Decoder Architecture<a class="anchor-link" href="#Encoder-Decoder-Architecture">¶</a></h2><p>So far, a single RNN has handled the entire task — either reading one sequence or writing one sequence. Many problems, however, require mapping <em>one sequence to another</em>: translating English to French, summarizing an article, or transcribing speech to text. In these problems the input and output can have different lengths and even different orderings, so reading-then-classifying or writing-from-scratch is not sufficient on its own.</p>
 <p>The <strong>encoder–decoder</strong> framework is a foundational approach designed for exactly this situation, converting one sequence into another. It is widely used in sequence-to-sequence learning and has been applied to tasks including language translation, text summarization, and speech recognition.</p>
 <p>The architecture divides the overall task into two components:</p>
@@ -9124,7 +9123,6 @@ beam   chose 'BB'  (overall prob 0.427)
 </div>
 <div class="jp-InputArea jp-Cell-inputArea"><div class="jp-InputPrompt jp-InputArea-prompt">
 </div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput" data-mime-type="text/markdown">
-<hr/>
 <h2 id="Encoder-Decoder-RNNs">Encoder-Decoder RNNs<a class="anchor-link" href="#Encoder-Decoder-RNNs">¶</a></h2><p><strong>The encoder–decoder model with RNNs is a specific implementation of the general encoder–decoder framework, where both the encoder and decoder are built using recurrent neural networks.</strong> This configuration leverages the sequential processing capabilities of RNNs to capture the temporal dynamics inherent in language, speech, and other sequential data.</p>
 <p>In traditional sequence-to-sequence tasks, the model must transform an input sequence into an output sequence, such as converting a sentence in one language to another. RNNs naturally handle sequential data by updating their hidden state with each new token. However, when RNNs are used in isolation, they can struggle with variable-length sequences and long-range dependencies.</p>
 <p>The encoder–decoder structure with RNNs was designed to address these challenges:</p>
