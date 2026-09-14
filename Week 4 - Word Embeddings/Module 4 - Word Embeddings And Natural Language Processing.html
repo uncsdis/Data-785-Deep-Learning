@@ -7332,12 +7332,7 @@ a.anchor-link {
     if (!diagrams.length) {
       return;
     }
-    const mermaid = (await import("https://cdnjs.cloudflare.com/ajax/libs/mermaid/11.10.0/mermaid.esm.min.mjs")).default;
-    const elkUrl = "https://cdnjs.cloudflare.com/ajax/libs/mermaid-layout-elk/0.1.9/mermaid-layout-elk.esm.min.mjs";
-    if(elkUrl) {
-      const elkLayouts = (await import(elkUrl)).default;
-      mermaid.registerLayoutLoaders(elkLayouts);
-    }
+    const mermaid = (await import("https://cdnjs.cloudflare.com/ajax/libs/mermaid/10.7.0/mermaid.esm.min.mjs")).default;
     const parser = new DOMParser();
 
     mermaid.initialize({
@@ -7434,8 +7429,7 @@ a.anchor-link {
      * Post-process to ensure mermaid diagrams contain only valid SVG and XHTML.
      */
     function cleanMermaidSvg(svg) {
-      svg = svg.replace(RE_VOID_ELEMENT, replaceVoidElement);
-      return `${SVG_XML_HEADER}${svg}`;
+      return svg.replace(RE_VOID_ELEMENT, replaceVoidElement);
     }
 
 
@@ -7461,285 +7455,6 @@ a.anchor-link {
       }
       return `<${tag} ${rest}>`;
     }
-
-
-  /**
-   * Named HTML entities with their decimal equivalent codes.
-   *
-   * @see https://www.w3.org/TR/WD-html40-970708/sgml/entities.html
-   * */
-  const HTML_ENTITIES = `<!ENTITY Aacute "&#193;">
-<!ENTITY aacute "&#225;">
-<!ENTITY Acirc "&#194;">
-<!ENTITY acirc "&#226;">
-<!ENTITY acute "&#180;">
-<!ENTITY AElig "&#198;">
-<!ENTITY aelig "&#230;">
-<!ENTITY Agrave "&#192;">
-<!ENTITY agrave "&#224;">
-<!ENTITY alefsym "&#8501;">
-<!ENTITY Alpha "&#913;">
-<!ENTITY alpha "&#945;">
-<!ENTITY amp "&#38;">
-<!ENTITY and "&#8869;">
-<!ENTITY ang "&#8736;">
-<!ENTITY Aring "&#197;">
-<!ENTITY aring "&#229;">
-<!ENTITY asymp "&#8776;">
-<!ENTITY Atilde "&#195;">
-<!ENTITY atilde "&#227;">
-<!ENTITY Auml "&#196;">
-<!ENTITY auml "&#228;">
-<!ENTITY bdquo "&#8222;">
-<!ENTITY Beta "&#914;">
-<!ENTITY beta "&#946;">
-<!ENTITY brvbar "&#166;">
-<!ENTITY bull "&#8226;">
-<!ENTITY cap "&#8745;">
-<!ENTITY Ccedil "&#199;">
-<!ENTITY ccedil "&#231;">
-<!ENTITY cedil "&#184;">
-<!ENTITY cent "&#162;">
-<!ENTITY Chi "&#935;">
-<!ENTITY chi "&#967;">
-<!ENTITY circ "&#710;">
-<!ENTITY clubs "&#9827;">
-<!ENTITY cong "&#8773;">
-<!ENTITY copy "&#169;">
-<!ENTITY crarr "&#8629;">
-<!ENTITY cup "&#8746;">
-<!ENTITY curren "&#164;">
-<!ENTITY dagger "&#8224;">
-<!ENTITY Dagger "&#8225;">
-<!ENTITY darr "&#8595;">
-<!ENTITY dArr "&#8659;">
-<!ENTITY deg "&#176;">
-<!ENTITY Delta "&#916;">
-<!ENTITY delta "&#948;">
-<!ENTITY diams "&#9830;">
-<!ENTITY divide "&#247;">
-<!ENTITY Eacute "&#201;">
-<!ENTITY eacute "&#233;">
-<!ENTITY Ecirc "&#202;">
-<!ENTITY ecirc "&#234;">
-<!ENTITY Egrave "&#200;">
-<!ENTITY egrave "&#232;">
-<!ENTITY empty "&#8709;">
-<!ENTITY emsp "&#8195;">
-<!ENTITY ensp "&#8194;">
-<!ENTITY epsilon "&#949;">
-<!ENTITY Epsilon "&#917;">
-<!ENTITY equiv "&#8801;">
-<!ENTITY Eta "&#919;">
-<!ENTITY eta "&#951;">
-<!ENTITY ETH "&#208;">
-<!ENTITY eth "&#240;">
-<!ENTITY Euml "&#203;">
-<!ENTITY euml "&#235;">
-<!ENTITY exist "&#8707;">
-<!ENTITY fnof "&#402;">
-<!ENTITY forall "&#8704;">
-<!ENTITY frac12 "&#189;">
-<!ENTITY frac14 "&#188;">
-<!ENTITY frac34 "&#190;">
-<!ENTITY frasl "&#8260;">
-<!ENTITY Gamma "&#915;">
-<!ENTITY gamma "&#947;">
-<!ENTITY ge "&#8805;">
-<!ENTITY gt "&#62;">
-<!ENTITY harr "&#8596;">
-<!ENTITY hArr "&#8660;">
-<!ENTITY hearts "&#9829;">
-<!ENTITY hellip "&#8230;">
-<!ENTITY Iacute "&#205;">
-<!ENTITY iacute "&#237;">
-<!ENTITY Icirc "&#206;">
-<!ENTITY icirc "&#238;">
-<!ENTITY iexcl "&#161;">
-<!ENTITY Igrave "&#204;">
-<!ENTITY igrave "&#236;">
-<!ENTITY image "&#8465;">
-<!ENTITY infin "&#8734;">
-<!ENTITY int "&#8747;">
-<!ENTITY Iota "&#921;">
-<!ENTITY iota "&#953;">
-<!ENTITY iquest "&#191;">
-<!ENTITY isin "&#8712;">
-<!ENTITY Iuml "&#207;">
-<!ENTITY iuml "&#239;">
-<!ENTITY Kappa "&#922;">
-<!ENTITY kappa "&#954;">
-<!ENTITY Lambda "&#923;">
-<!ENTITY lambda "&#955;">
-<!ENTITY lang "&#9001;">
-<!ENTITY laquo "&#171;">
-<!ENTITY larr "&#8592;">
-<!ENTITY lArr "&#8656;">
-<!ENTITY lceil "&#8968;">
-<!ENTITY ldquo "&#8220;">
-<!ENTITY le "&#8804;">
-<!ENTITY lfloor "&#8970;">
-<!ENTITY lowast "&#8727;">
-<!ENTITY loz "&#9674;">
-<!ENTITY lrm "&#8206;">
-<!ENTITY lsaquo "&#8249;">
-<!ENTITY lsquo "&#8216;">
-<!ENTITY lt "&#60;">
-<!ENTITY macr "&#175;">
-<!ENTITY mdash "&#8212;">
-<!ENTITY micro "&#181;">
-<!ENTITY middot "&#183;">
-<!ENTITY minus "&#8722;">
-<!ENTITY Mu "&#924;">
-<!ENTITY mu "&#956;">
-<!ENTITY nabla "&#8711;">
-<!ENTITY nbsp "&#160;">
-<!ENTITY ndash "&#8211;">
-<!ENTITY ne "&#8800;">
-<!ENTITY ni "&#8715;">
-<!ENTITY not "&#172;">
-<!ENTITY notin "&#8713;">
-<!ENTITY nsub "&#8836;">
-<!ENTITY Ntilde "&#209;">
-<!ENTITY ntilde "&#241;">
-<!ENTITY Nu "&#925;">
-<!ENTITY nu "&#957;">
-<!ENTITY Oacute "&#211;">
-<!ENTITY oacute "&#243;">
-<!ENTITY Ocirc "&#212;">
-<!ENTITY ocirc "&#244;">
-<!ENTITY OElig "&#338;">
-<!ENTITY oelig "&#339;">
-<!ENTITY Ograve "&#210;">
-<!ENTITY ograve "&#242;">
-<!ENTITY oline "&#8254;">
-<!ENTITY Omega "&#937;">
-<!ENTITY omega "&#969;">
-<!ENTITY Omicron "&#927;">
-<!ENTITY omicron "&#959;">
-<!ENTITY oplus "&#8853;">
-<!ENTITY or "&#8870;">
-<!ENTITY ordf "&#170;">
-<!ENTITY ordm "&#186;">
-<!ENTITY Oslash "&#216;">
-<!ENTITY oslash "&#248;">
-<!ENTITY Otilde "&#213;">
-<!ENTITY otilde "&#245;">
-<!ENTITY otimes "&#8855;">
-<!ENTITY Ouml "&#214;">
-<!ENTITY ouml "&#246;">
-<!ENTITY para "&#182;">
-<!ENTITY part "&#8706;">
-<!ENTITY permil "&#8240;">
-<!ENTITY perp "&#8869;">
-<!ENTITY Phi "&#934;">
-<!ENTITY phi "&#966;">
-<!ENTITY Pi "&#928;">
-<!ENTITY pi "&#960;">
-<!ENTITY piv "&#982;">
-<!ENTITY plusmn "&#177;">
-<!ENTITY pound "&#163;">
-<!ENTITY prime "&#8242;">
-<!ENTITY Prime "&#8243;">
-<!ENTITY prod "&#8719;">
-<!ENTITY prop "&#8733;">
-<!ENTITY Psi "&#936;">
-<!ENTITY psi "&#968;">
-<!ENTITY quot "&#34;">
-<!ENTITY radic "&#8730;">
-<!ENTITY rang "&#9002;">
-<!ENTITY raquo "&#187;">
-<!ENTITY rarr "&#8594;">
-<!ENTITY rArr "&#8658;">
-<!ENTITY rceil "&#8969;">
-<!ENTITY rdquo "&#8221;">
-<!ENTITY real "&#8476;">
-<!ENTITY reg "&#174;">
-<!ENTITY rfloor "&#8971;">
-<!ENTITY Rho "&#929;">
-<!ENTITY rho "&#961;">
-<!ENTITY rlm "&#8207;">
-<!ENTITY rsaquo "&#8250;">
-<!ENTITY rsquo "&#8217;">
-<!ENTITY sbquo "&#8218;">
-<!ENTITY Scaron "&#352;">
-<!ENTITY scaron "&#353;">
-<!ENTITY sdot "&#8901;">
-<!ENTITY sect "&#167;">
-<!ENTITY shy "&#173;">
-<!ENTITY Sigma "&#931;">
-<!ENTITY sigma "&#963;">
-<!ENTITY sigmaf "&#962;">
-<!ENTITY sim "&#8764;">
-<!ENTITY spades "&#9824;">
-<!ENTITY sub "&#8834;">
-<!ENTITY sube "&#8838;">
-<!ENTITY sum "&#8721;">
-<!ENTITY sup "&#8835;">
-<!ENTITY sup1 "&#185;">
-<!ENTITY sup2 "&#178;">
-<!ENTITY sup3 "&#179;">
-<!ENTITY supe "&#8839;">
-<!ENTITY szlig "&#223;">
-<!ENTITY Tau "&#932;">
-<!ENTITY tau "&#964;">
-<!ENTITY there4 "&#8756;">
-<!ENTITY Theta "&#920;">
-<!ENTITY theta "&#952;">
-<!ENTITY thetasym "&#977;">
-<!ENTITY thinsp "&#8201;">
-<!ENTITY THORN "&#222;">
-<!ENTITY thorn "&#254;">
-<!ENTITY tilde "&#732;">
-<!ENTITY times "&#215;">
-<!ENTITY trade "&#8482;">
-<!ENTITY Uacute "&#218;">
-<!ENTITY uacute "&#250;">
-<!ENTITY uarr "&#8593;">
-<!ENTITY uArr "&#8657;">
-<!ENTITY Ucirc "&#219;">
-<!ENTITY ucirc "&#251;">
-<!ENTITY Ugrave "&#217;">
-<!ENTITY ugrave "&#249;">
-<!ENTITY uml "&#168;">
-<!ENTITY upsih "&#978;">
-<!ENTITY Upsilon "&#933;">
-<!ENTITY upsilon "&#965;">
-<!ENTITY Uuml "&#220;">
-<!ENTITY uuml "&#252;">
-<!ENTITY weierp "&#8472;">
-<!ENTITY Xi "&#926;">
-<!ENTITY xi "&#958;">
-<!ENTITY Yacute "&#221;">
-<!ENTITY yacute "&#253;">
-<!ENTITY yen "&#165;">
-<!ENTITY Yuml "&#376;">
-<!ENTITY yuml "&#255;">
-<!ENTITY Zeta "&#918;">
-<!ENTITY zeta "&#950;">
-<!ENTITY zwj "&#8205;">
-<!ENTITY zwnj "&#8204;">`.replace(/\n/g, ' ');
-
-  /**
-   * A reasonably strict xml declaration.
-   */
-  const XML_DECL = '<?xml version="1.0" standalone="no"?>';
-
-  /**
-   * The beginning of the XML doctype declaration.
-   */
-  const DOCTYPE_START = `<!DOCTYPE svg PUBLIC "-//W3C//DTD SVG 1.1//EN" "http://www.w3.org/Graphics/SVG/1.1/DTD/svg11.dtd" [`;
-
-  /**
-   * The end of the XML docype declaration.
-   */
-  const DOCTYPE_END = ']>';
-
-  /**
-   * A full header for an SVG XML document.
-   */
-  const SVG_XML_HEADER = `${XML_DECL}
-    ${DOCTYPE_START}${HTML_ENTITIES}${DOCTYPE_END}`;
 
     void Promise.all([...diagrams].map(renderOneMarmaid));
   });
@@ -7814,6 +7529,7 @@ a.anchor-link {
 <div class="jp-InputArea jp-Cell-inputArea"><div class="jp-InputPrompt jp-InputArea-prompt">
 </div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput" data-mime-type="text/markdown">
 <h2 id="Text-Representations">Text Representations<a class="anchor-link" href="#Text-Representations">¶</a></h2><p>In machine learning and neural networks, the data often needs to be numerical since models cannot usually work directly with raw text. Text is inherently complex, filled with semantics, context, and structure that computers cannot easily interpret. To train models effectively on textual data, we need systematic ways to convert text into numerical representations while preserving as much relevant information as possible. Without this transformation, machine learning algorithms would be unable to derive patterns or make predictions from text data.</p>
+<p>Before any of that can happen, we first have to decide how to break the raw text into pieces in the first place — these pieces are called <strong>tokens</strong>. Think of tokenization as translating human-readable text into a language a model understands: just as we break sentences into words when reading, a tokenizer breaks text into smaller pieces that map to entries in a fixed vocabulary. For the rest of this section we'll keep that choice simple and treat each word as one token, the same approach <code>CountVectorizer</code> and <code>TfidfVectorizer</code> use below. Later in this notebook we'll revisit tokenization in more depth and see why modern models often split text into pieces smaller than a whole word.</p>
 <p>Text is composed of characters and words, which hold meaning for humans but are not directly understandable by machines. To perform tasks like classification, clustering, or generation, machine learning models need features, or numerical inputs, that capture relevant patterns in the text.</p>
 <p>Effective text representations help models understand and make predictions by encoding:</p>
 <ul>
@@ -8234,6 +7950,25 @@ $$</p>
 </div>
 </div>
 </div>
+<div class="jp-Cell jp-MarkdownCell jp-Notebook-cell" id="cell-id=824543fc">
+<div class="jp-Cell-inputWrapper" tabindex="0">
+<div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
+</div>
+<div class="jp-InputArea jp-Cell-inputArea"><div class="jp-InputPrompt jp-InputArea-prompt">
+</div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput" data-mime-type="text/markdown">
+<h2 id="Tokenization">Tokenization<a class="anchor-link" href="#Tokenization">¶</a></h2><p>Bag of Words and TF-IDF above both made an implicit choice: each token is a whole word. That is an intuitive place to start, but it is not the only option, and the choice matters a lot for how well a representation generalizes.</p>
+<h3 id="Why-Not-Just-Use-Words-or-Characters?">Why Not Just Use Words or Characters?<a class="anchor-link" href="#Why-Not-Just-Use-Words-or-Characters?">¶</a></h3><p>There are several intuitive approaches to breaking text into pieces, but each has significant drawbacks:</p>
+<ul>
+<li><p><strong>Word-level tokenization</strong> creates a separate token for every unique word. This struggles with rare words, typos, and morphological variations. A model trained on "running" might not understand "runner" or "runs" because they are treated as completely separate tokens with no shared representation. The vocabulary would also need to be enormous to cover every possible word in every language, including technical jargon, proper nouns, and misspellings.</p>
+</li>
+<li><p><strong>Character-level tokenization</strong> breaks text into individual letters. While this eliminates the unknown-word problem (any text can be represented), it makes sequences extremely long. The word "transformer" becomes 11 tokens instead of 1, meaning the model needs to learn to compose characters into meaningful units — a much harder task. It also means a model has to work with much longer sequences to represent the same amount of content.</p>
+</li>
+</ul>
+<p>Modern NLP models — including the contextual embedding models we will see later in this notebook — use <strong>subword tokenization</strong>, which strikes an effective balance: common words (like "the", "is", "hello") stay as single tokens, while rare or complex words are broken into meaningful pieces ("unforgettable" → "un" + "forget" + "table"). This keeps the vocabulary manageable (typically 32K–100K entries) while ensuring any text can be represented. We will come back to exactly how subword tokenization works, and try it ourselves, later in this notebook.</p>
+</div>
+</div>
+</div>
+</div>
 <div class="jp-Cell jp-MarkdownCell jp-Notebook-cell" id="cell-id=dd897da1">
 <div class="jp-Cell-inputWrapper" tabindex="0">
 <div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
@@ -8365,6 +8100,29 @@ prediction tasks.</p>
 </div>
 </div>
 </div>
+<div class="jp-Cell jp-MarkdownCell jp-Notebook-cell" id="cell-id=3fbfd92e">
+<div class="jp-Cell-inputWrapper" tabindex="0">
+<div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
+</div>
+<div class="jp-InputArea jp-Cell-inputArea"><div class="jp-InputPrompt jp-InputArea-prompt">
+</div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput" data-mime-type="text/markdown">
+<h3 id="How-Is-P(context-%7C-target)-Actually-Computed?">How Is P(context | target) Actually Computed?<a class="anchor-link" href="#How-Is-P(context-%7C-target)-Actually-Computed?">¶</a></h3><p>Both objectives above are written as maximizing $\log P(\text{context} \mid \text{target})$ (or the reverse, for CBOW), but neither says how that probability is actually computed. The textbook way is a <strong>softmax over the entire vocabulary</strong>:</p>
+<p>$$
+P(w_O \mid w_I) = \frac{\exp(v_{w_O}^{\prime \top} v_{w_I})}{\sum_{w=1}^{V} \exp(v_w^{\prime \top} v_{w_I})}
+$$</p>
+<p>The denominator sums over <em>every word in the vocabulary</em>. For a realistic vocabulary of 50,000+ words, that sum has to be recomputed for every single training example — this is the actual reason a naive implementation would be far too slow to train on billions of words, and it's what the earlier claim that Word2Vec "only needs to pay attention to a few words at a time" was alluding to.</p>
+<p><strong>Negative sampling</strong> is the trick that makes this tractable. Instead of updating a probability over the whole vocabulary on every step, Word2Vec:</p>
+<ol>
+<li>Treats the true context word as a <strong>positive example</strong> — "this word really did appear nearby, increase its score."</li>
+<li>Randomly samples a small handful of "negative" words (typically 5–20) that did <em>not</em> appear nearby, and treats each as a <strong>negative example</strong> — "this word did not appear nearby, decrease its score."</li>
+<li>Turns the problem into a small set of cheap <strong>binary classification</strong> updates ("is this a real neighbor — yes or no?") instead of one expensive multi-class classification over the full vocabulary.</li>
+</ol>
+<p>This is why Word2Vec scales to enormous corpora: each training step only touches the weights for the handful of positive and negative words involved, not all 50,000+ vocabulary words. (An older alternative, <strong>hierarchical softmax</strong>, gets a similar speedup differently — by arranging the vocabulary into a binary tree so that computing $P$ only requires walking $O(\log V)$ nodes instead of summing over all $V$ words. Most modern implementations, including <code>gensim</code>'s default, use negative sampling.)</p>
+<p><code>gensim</code> exposes this directly via the <code>negative</code> parameter (<code>negative=5</code> by default) on <code>Word2Vec(...)</code> below.</p>
+</div>
+</div>
+</div>
+</div>
 <div class="jp-Cell jp-MarkdownCell jp-Notebook-cell" id="cell-id=fd39a662">
 <div class="jp-Cell-inputWrapper" tabindex="0">
 <div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
@@ -8468,6 +8226,7 @@ random. Word2Vec needs a large corpus — see the Real-World Example below.
 <li><strong><code>min_count=1</code></strong>: Minimum number of occurrences for a word to be included in the vocabulary.</li>
 <li><strong><code>sg=1</code></strong>: Skip-Gram model (set <code>sg=0</code> for CBOW).</li>
 <li><strong><code>epochs=100</code></strong>: Number of training epochs (iterations over the corpus).</li>
+<li><strong><code>negative</code></strong> <em>(not set explicitly here, so it uses gensim's default of 5)</em>: the number of negative samples drawn per positive example during training — the mechanism discussed above that makes training fast.</li>
 </ul>
 </div>
 </div>
@@ -8495,7 +8254,47 @@ random. Word2Vec needs a large corpus — see the Real-World Example below.
 <div class="jp-InputArea jp-Cell-inputArea"><div class="jp-InputPrompt jp-InputArea-prompt">
 </div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput" data-mime-type="text/markdown">
 <h3 id="GloVe-(Global-Vectors-for-Word-Representation)">GloVe (Global Vectors for Word Representation)<a class="anchor-link" href="#GloVe-(Global-Vectors-for-Word-Representation)">¶</a></h3><p>GloVe is an unsupervised learning algorithm developed by Stanford researchers that generates word embeddings by leveraging global word-word co-occurrence statistics from a corpus. Unlike Word2Vec, which learns embeddings by predicting context words from a sliding window, GloVe constructs a large co-occurrence matrix that captures how frequently words appear together across the entire corpus.</p>
-<h4 id="How-GloVe-Works">How GloVe Works<a class="anchor-link" href="#How-GloVe-Works">¶</a></h4><ol>
+<h4 id="The-Core-Idea,-in-Plain-Terms">The Core Idea, in Plain Terms<a class="anchor-link" href="#The-Core-Idea,-in-Plain-Terms">¶</a></h4><p>Word2Vec learns by sliding a small window across the text and, one interaction at a time, nudging a word's vector toward its neighbors. GloVe takes a different route: it starts by counting, across the <em>entire</em> corpus, how often every pair of words appears together. This produces one large table — a <strong>co-occurrence matrix</strong> — where entry $(i, j)$ is simply "how many times did word $i$ appear near word $j$, anywhere in the corpus?" GloVe then searches for a vector for each word such that the relationships between vectors reflect the patterns in that table.</p>
+<p>The key insight is that raw co-occurrence counts on their own are not very informative — common words like "the" or "a" co-occur with almost everything, frequently. What turns out to be informative is the <strong>ratio</strong> of co-occurrence probabilities between two words. The classic example from the original GloVe paper makes this concrete: consider the words "ice" and "steam," and how often each tends to appear near a handful of probe words.</p>
+<table>
+<thead>
+<tr>
+<th>Probe word</th>
+<th>Co-occurs with "ice"</th>
+<th>Co-occurs with "steam"</th>
+<th>Ratio</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>solid</strong></td>
+<td>often</td>
+<td>rarely</td>
+<td>large</td>
+</tr>
+<tr>
+<td><strong>gas</strong></td>
+<td>rarely</td>
+<td>often</td>
+<td>small</td>
+</tr>
+<tr>
+<td><strong>water</strong></td>
+<td>often</td>
+<td>often</td>
+<td>≈ 1</td>
+</tr>
+<tr>
+<td><strong>fashion</strong></td>
+<td>rarely</td>
+<td>rarely</td>
+<td>≈ 1</td>
+</tr>
+</tbody>
+</table>
+<p>Both "ice" and "steam" relate to water, so both co-occur with "water" often — the ratio is close to 1, which tells us nothing useful about what distinguishes the two words. Neither has anything to do with "fashion," so that ratio is also close to 1, again uninformative. But "solid" co-occurs much more with "ice" than with "steam" (a large ratio), and "gas" co-occurs much more with "steam" than with "ice" (a small ratio) — these are exactly the words that distinguish the two, and the ratios pick that out clearly. GloVe's training objective is built specifically to make the learned vectors reproduce these informative ratios, which is why the resulting embeddings end up capturing meaningful relationships between words.</p>
+<h4 id="How-GloVe-Works">How GloVe Works<a class="anchor-link" href="#How-GloVe-Works">¶</a></h4><p>With that intuition in place, here is the same idea stated more formally:</p>
+<ol>
 <li><p><strong>Co-occurrence Matrix:</strong> GloVe first builds a matrix $X$ where each entry $X_{ij}$ represents how often word $i$ appears in the context of word $j$ across the entire corpus.</p>
 </li>
 <li><p><strong>Weighted Least Squares Objective:</strong> The model then learns word vectors by minimizing a weighted least squares objective that tries to encode the relationship between co-occurrence probabilities:</p>
@@ -8511,7 +8310,9 @@ $$</p>
 <li>$f(X_{ij})$ is a weighting function that prevents very frequent co-occurrences from dominating the objective</li>
 </ul>
 <ol start="3">
-<li><strong>Final Embeddings:</strong> The final word embedding for a word is typically the sum of its $w$ and $\tilde{w}$ vectors.</li>
+<li><p><strong>Final Embeddings:</strong> The final word embedding for a word is typically the sum of its $w$ and $\tilde{w}$ vectors.</p>
+<p><strong>Why two vectors for the same word?</strong> In the objective above, every word plays two distinct roles: it is the <strong>main word</strong> $w_i$ we are building an embedding for, and separately, it can also appear as a <strong>context word</strong> $\tilde{w}_j$ inside some <em>other</em> main word's co-occurrence counts. GloVe keeps a separate set of learned parameters for each of these two roles, since "the word being predicted" and "part of someone else's context" are optimized against different terms in the objective. (Word2Vec has this same split under the hood — it also learns two weight matrices, one for target words and one for context words — but conventionally keeps only the target vectors and discards the context ones.) Since both $w_i$ and $\tilde{w}_i$ end up being reasonable embeddings for the same word, summing them tends to produce a slightly more robust final vector than using either alone.</p>
+</li>
 </ol>
 <h4 id="Key-Differences-from-Word2Vec">Key Differences from Word2Vec<a class="anchor-link" href="#Key-Differences-from-Word2Vec">¶</a></h4><table>
 <thead>
@@ -8659,6 +8460,54 @@ throne: 0.6756
 </div>
 </div>
 </div>
+</div>
+<div class="jp-Cell jp-MarkdownCell jp-Notebook-cell" id="cell-id=2157d762">
+<div class="jp-Cell-inputWrapper" tabindex="0">
+<div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
+</div>
+<div class="jp-InputArea jp-Cell-inputArea"><div class="jp-InputPrompt jp-InputArea-prompt">
+</div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput" data-mime-type="text/markdown">
+<h4 id="Embeddings-Can-Also-Encode-Bias">Embeddings Can Also Encode Bias<a class="anchor-link" href="#Embeddings-Can-Also-Encode-Bias">¶</a></h4><p>The "king - man + woman = queen" example above is a fun demonstration, but it is also a carefully chosen one. Word embeddings are trained purely on statistical patterns in real-world text, so whatever biases and stereotypes exist in that text — gender, race, and other social biases — get baked directly into the resulting vector space. This is not a hypothetical concern; it is one of the most well-documented issues in NLP.</p>
+<p>The canonical illustration comes from a widely-cited paper (Bolukbasi et al., 2016, <em>"Man is to Computer Programmer as Woman is to Homemaker? Debiasing Word Embeddings"</em>), which found that the exact same analogy arithmetic, applied to an occupation instead of royalty, produces results like:</p>
+<p>$$
+\text{man} - \text{computer programmer} + \text{woman} \;\approx\; \text{homemaker}
+$$</p>
+<p>We can see the same phenomenon in the GloVe vectors we just loaded:</p>
+</div>
+</div>
+</div>
+</div><div class="jp-Cell jp-CodeCell jp-Notebook-cell jp-mod-noOutputs" id="cell-id=989a4f65">
+<div class="jp-Cell-inputWrapper" tabindex="0">
+<div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
+</div>
+<div class="jp-InputArea jp-Cell-inputArea">
+<div class="jp-InputPrompt jp-InputArea-prompt">In [ ]:</div>
+<div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
+<div class="cm-editor cm-s-jupyter">
+<div class="highlight hl-ipython3"><pre><span></span><span class="c1"># The same analogy machinery as above, applied to an occupation instead</span>
+<span class="c1"># of royalty. Trained purely on statistical co-occurrence in real-world</span>
+<span class="c1"># text, embeddings pick up real-world gender associations along with</span>
+<span class="c1"># everything else they learn.</span>
+<span class="n">result</span> <span class="o">=</span> <span class="n">glove_model</span><span class="o">.</span><span class="n">most_similar</span><span class="p">(</span><span class="n">positive</span><span class="o">=</span><span class="p">[</span><span class="s2">"woman"</span><span class="p">,</span> <span class="s2">"programmer"</span><span class="p">],</span> <span class="n">negative</span><span class="o">=</span><span class="p">[</span><span class="s2">"man"</span><span class="p">],</span> <span class="n">topn</span><span class="o">=</span><span class="mi">5</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="s2">"man : programmer :: woman : ?"</span><span class="p">)</span>
+<span class="k">for</span> <span class="n">word</span><span class="p">,</span> <span class="n">similarity</span> <span class="ow">in</span> <span class="n">result</span><span class="p">:</span>
+    <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">"</span><span class="si">{</span><span class="n">word</span><span class="si">}</span><span class="s2">: </span><span class="si">{</span><span class="n">similarity</span><span class="si">:</span><span class="s2">.4f</span><span class="si">}</span><span class="s2">"</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+</div>
+</div>
+</div>
+<div class="jp-Cell jp-MarkdownCell jp-Notebook-cell" id="cell-id=744fe6a8">
+<div class="jp-Cell-inputWrapper" tabindex="0">
+<div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
+</div>
+<div class="jp-InputArea jp-Cell-inputArea"><div class="jp-InputPrompt jp-InputArea-prompt">
+</div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput" data-mime-type="text/markdown">
+<p>This does not mean embeddings are unusable — it means they are a mirror of the text they were trained on, biases included, and that mirror needs to be accounted for before using embeddings in any application that makes decisions about people (hiring tools, resume screening, search ranking, and so on). Entire subfields of NLP research — debiasing techniques, fairness-aware embeddings — exist specifically to address this. The takeaway for now: never assume an embedding-based analogy or similarity score is "neutral" just because it came from math rather than a person.</p>
+</div>
+</div>
+</div>
 </div><div class="jp-Cell jp-CodeCell jp-Notebook-cell" id="cell-id=7wxxh914ofm">
 <div class="jp-Cell-inputWrapper" tabindex="0">
 <div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
@@ -8690,6 +8539,84 @@ throne: 0.6756
 Similarity between 'computer' and 'banana': 0.1213
 </pre>
 </div>
+</div>
+</div>
+</div>
+</div>
+<div class="jp-Cell jp-MarkdownCell jp-Notebook-cell" id="cell-id=b253b8f5">
+<div class="jp-Cell-inputWrapper" tabindex="0">
+<div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
+</div>
+<div class="jp-InputArea jp-Cell-inputArea"><div class="jp-InputPrompt jp-InputArea-prompt">
+</div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput" data-mime-type="text/markdown">
+<h4 id="Seeing-the-Vector-Space">Seeing the Vector Space<a class="anchor-link" href="#Seeing-the-Vector-Space">¶</a></h4><p>Every example above compares two or three words at a time. It is more convincing to see the structure directly: if word embeddings really do place similar words close together, plotting a handful of words from a few very different categories should show clean, obvious clusters. 100 dimensions cannot be visualized directly, so we project down to 2-D first.</p>
+</div>
+</div>
+</div>
+</div><div class="jp-Cell jp-CodeCell jp-Notebook-cell jp-mod-noOutputs" id="cell-id=d17c380f">
+<div class="jp-Cell-inputWrapper" tabindex="0">
+<div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
+</div>
+<div class="jp-InputArea jp-Cell-inputArea">
+<div class="jp-InputPrompt jp-InputArea-prompt">In [ ]:</div>
+<div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
+<div class="cm-editor cm-s-jupyter">
+<div class="highlight hl-ipython3"><pre><span></span><span class="kn">import</span><span class="w"> </span><span class="nn">numpy</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">np</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">matplotlib.pyplot</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">plt</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">sklearn.decomposition</span><span class="w"> </span><span class="kn">import</span> <span class="n">PCA</span>
+
+<span class="c1"># A small, curated set of words from three very different categories —</span>
+<span class="c1"># picked so the plot below has an obvious "aha, they really do cluster</span>
+<span class="c1"># by meaning" answer.</span>
+<span class="n">word_groups</span> <span class="o">=</span> <span class="p">{</span>
+    <span class="s2">"animals"</span><span class="p">:</span>   <span class="p">[</span><span class="s2">"dog"</span><span class="p">,</span> <span class="s2">"cat"</span><span class="p">,</span> <span class="s2">"lion"</span><span class="p">,</span> <span class="s2">"tiger"</span><span class="p">,</span> <span class="s2">"elephant"</span><span class="p">,</span> <span class="s2">"wolf"</span><span class="p">],</span>
+    <span class="s2">"fruits"</span><span class="p">:</span>    <span class="p">[</span><span class="s2">"apple"</span><span class="p">,</span> <span class="s2">"banana"</span><span class="p">,</span> <span class="s2">"orange"</span><span class="p">,</span> <span class="s2">"grape"</span><span class="p">,</span> <span class="s2">"mango"</span><span class="p">,</span> <span class="s2">"peach"</span><span class="p">],</span>
+    <span class="s2">"countries"</span><span class="p">:</span> <span class="p">[</span><span class="s2">"france"</span><span class="p">,</span> <span class="s2">"germany"</span><span class="p">,</span> <span class="s2">"japan"</span><span class="p">,</span> <span class="s2">"brazil"</span><span class="p">,</span> <span class="s2">"canada"</span><span class="p">,</span> <span class="s2">"egypt"</span><span class="p">],</span>
+<span class="p">}</span>
+
+<span class="n">words</span><span class="p">,</span> <span class="n">groups</span> <span class="o">=</span> <span class="p">[],</span> <span class="p">[]</span>
+<span class="k">for</span> <span class="n">group</span><span class="p">,</span> <span class="n">ws</span> <span class="ow">in</span> <span class="n">word_groups</span><span class="o">.</span><span class="n">items</span><span class="p">():</span>
+    <span class="k">for</span> <span class="n">w</span> <span class="ow">in</span> <span class="n">ws</span><span class="p">:</span>
+        <span class="n">words</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">w</span><span class="p">)</span>
+        <span class="n">groups</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">group</span><span class="p">)</span>
+
+<span class="n">vectors</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([</span><span class="n">glove_model</span><span class="p">[</span><span class="n">w</span><span class="p">]</span> <span class="k">for</span> <span class="n">w</span> <span class="ow">in</span> <span class="n">words</span><span class="p">])</span>
+
+<span class="c1"># PCA (a simple *linear* projection) is enough to show clustering with</span>
+<span class="c1"># only a handful of points — t-SNE (used later in this notebook) needs</span>
+<span class="c1"># many more points to behave well.</span>
+<span class="n">coords</span> <span class="o">=</span> <span class="n">PCA</span><span class="p">(</span><span class="n">n_components</span><span class="o">=</span><span class="mi">2</span><span class="p">,</span> <span class="n">random_state</span><span class="o">=</span><span class="mi">42</span><span class="p">)</span><span class="o">.</span><span class="n">fit_transform</span><span class="p">(</span><span class="n">vectors</span><span class="p">)</span>
+
+<span class="n">plt</span><span class="o">.</span><span class="n">figure</span><span class="p">(</span><span class="n">figsize</span><span class="o">=</span><span class="p">(</span><span class="mi">9</span><span class="p">,</span> <span class="mi">7</span><span class="p">))</span>
+<span class="n">palette</span> <span class="o">=</span> <span class="p">{</span><span class="s2">"animals"</span><span class="p">:</span> <span class="s2">"tab:blue"</span><span class="p">,</span> <span class="s2">"fruits"</span><span class="p">:</span> <span class="s2">"tab:orange"</span><span class="p">,</span> <span class="s2">"countries"</span><span class="p">:</span> <span class="s2">"tab:green"</span><span class="p">}</span>
+
+<span class="k">for</span> <span class="n">group</span> <span class="ow">in</span> <span class="n">word_groups</span><span class="p">:</span>
+    <span class="n">idx</span> <span class="o">=</span> <span class="p">[</span><span class="n">i</span> <span class="k">for</span> <span class="n">i</span><span class="p">,</span> <span class="n">g</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="n">groups</span><span class="p">)</span> <span class="k">if</span> <span class="n">g</span> <span class="o">==</span> <span class="n">group</span><span class="p">]</span>
+    <span class="n">plt</span><span class="o">.</span><span class="n">scatter</span><span class="p">(</span><span class="n">coords</span><span class="p">[</span><span class="n">idx</span><span class="p">,</span> <span class="mi">0</span><span class="p">],</span> <span class="n">coords</span><span class="p">[</span><span class="n">idx</span><span class="p">,</span> <span class="mi">1</span><span class="p">],</span> <span class="n">color</span><span class="o">=</span><span class="n">palette</span><span class="p">[</span><span class="n">group</span><span class="p">],</span> <span class="n">s</span><span class="o">=</span><span class="mi">80</span><span class="p">,</span>
+                <span class="n">edgecolors</span><span class="o">=</span><span class="s2">"black"</span><span class="p">,</span> <span class="n">linewidths</span><span class="o">=</span><span class="mf">0.4</span><span class="p">,</span> <span class="n">label</span><span class="o">=</span><span class="n">group</span><span class="p">)</span>
+
+<span class="k">for</span> <span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">y</span><span class="p">),</span> <span class="n">word</span> <span class="ow">in</span> <span class="nb">zip</span><span class="p">(</span><span class="n">coords</span><span class="p">,</span> <span class="n">words</span><span class="p">):</span>
+    <span class="n">plt</span><span class="o">.</span><span class="n">annotate</span><span class="p">(</span><span class="n">word</span><span class="p">,</span> <span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">y</span><span class="p">),</span> <span class="n">fontsize</span><span class="o">=</span><span class="mi">9</span><span class="p">,</span> <span class="n">xytext</span><span class="o">=</span><span class="p">(</span><span class="mi">4</span><span class="p">,</span> <span class="mi">4</span><span class="p">),</span> <span class="n">textcoords</span><span class="o">=</span><span class="s2">"offset points"</span><span class="p">)</span>
+
+<span class="n">plt</span><span class="o">.</span><span class="n">legend</span><span class="p">(</span><span class="n">title</span><span class="o">=</span><span class="s2">"Category"</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">title</span><span class="p">(</span><span class="s2">"PCA projection of pretrained GloVe vectors"</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">xlabel</span><span class="p">(</span><span class="s2">"PCA dimension 1"</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">ylabel</span><span class="p">(</span><span class="s2">"PCA dimension 2"</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">tight_layout</span><span class="p">()</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+</div>
+</div>
+</div>
+<div class="jp-Cell jp-MarkdownCell jp-Notebook-cell" id="cell-id=9ec03ecb">
+<div class="jp-Cell-inputWrapper" tabindex="0">
+<div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
+</div>
+<div class="jp-InputArea jp-Cell-inputArea"><div class="jp-InputPrompt jp-InputArea-prompt">
+</div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput" data-mime-type="text/markdown">
+<p>Notice that the three categories separate cleanly, even though PCA — a simple linear projection — is discarding most of the original 100 dimensions. We will revisit this kind of visualization at the end of the notebook with <strong>t-SNE</strong>, a nonlinear projection, on embeddings we train ourselves.</p>
 </div>
 </div>
 </div>
@@ -8889,6 +8816,322 @@ the river-bank use.</p>
 has exactly <strong>one</strong> vector for "bank" regardless of context. Producing a
 different vector per context is the defining feature of contextual embeddings,
 and it is what lets BERT disambiguate polysemous words.</p>
+</div>
+</div>
+</div>
+</div>
+<div class="jp-Cell jp-MarkdownCell jp-Notebook-cell" id="cell-id=614b0374">
+<div class="jp-Cell-inputWrapper" tabindex="0">
+<div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
+</div>
+<div class="jp-InputArea jp-Cell-inputArea"><div class="jp-InputPrompt jp-InputArea-prompt">
+</div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput" data-mime-type="text/markdown">
+<h2 id="Sentence-&amp;-Document-Embeddings">Sentence &amp; Document Embeddings<a class="anchor-link" href="#Sentence-&amp;-Document-Embeddings">¶</a></h2><p>Everything so far — Word2Vec, GloVe, even BERT's token-level output — produces a vector <em>per word</em> (or per subword token). In practice, most modern applications need a vector for an entire <strong>sentence, paragraph, or document</strong>: semantic search, clustering similar support tickets, retrieval-augmented generation (RAG), deduplication, and recommendation systems all compare whole pieces of text, not individual words.</p>
+<p>The naive approach — average the word (or BERT token) embeddings in a sentence — works poorly. It throws away word order, and averaging pulls every sentence's vector toward the same generic "center of the embedding space," making dissimilar sentences look artificially similar. <strong>Sentence embedding models</strong> are trained specifically to produce a single, well-behaved vector per sentence, where sentences with similar meaning end up close together and dissimilar sentences end up far apart — the same core idea as word embeddings, one level up.</p>
+<p>The most widely used family is <strong>Sentence-BERT (SBERT)</strong>, distributed through the <code>sentence-transformers</code> library. It fine-tunes a BERT-style encoder using a <strong>contrastive objective</strong>: pairs of sentences known to be similar (or dissimilar) are pushed together (or apart) in vector space during training, so the resulting sentence vectors are directly comparable with something as simple as cosine similarity — no fine-tuning required at use time.</p>
+<h4 id="Coding-Example">Coding Example<a class="anchor-link" href="#Coding-Example">¶</a></h4>
+</div>
+</div>
+</div>
+</div><div class="jp-Cell jp-CodeCell jp-Notebook-cell" id="cell-id=e42edad4">
+<div class="jp-Cell-inputWrapper" tabindex="0">
+<div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
+</div>
+<div class="jp-InputArea jp-Cell-inputArea">
+<div class="jp-InputPrompt jp-InputArea-prompt">In [30]:</div>
+<div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
+<div class="cm-editor cm-s-jupyter">
+<div class="highlight hl-ipython3"><pre><span></span><span class="o">!</span>pip<span class="w"> </span>install<span class="w"> </span>sentence-transformers
+</pre></div>
+</div>
+</div>
+</div>
+</div>
+<div class="jp-Cell-outputWrapper">
+<div class="jp-Collapser jp-OutputCollapser jp-Cell-outputCollapser">
+</div>
+<div class="jp-OutputArea jp-Cell-outputArea">
+<div class="jp-OutputArea-child">
+<div class="jp-OutputPrompt jp-OutputArea-prompt"></div>
+<div class="jp-RenderedText jp-OutputArea-output" data-mime-type="text/plain" tabindex="0">
+<pre>Collecting sentence-transformers
+  Downloading sentence_transformers-6.0.1-py3-none-any.whl.metadata (20 kB)
+Requirement already satisfied: transformers&lt;6.0.0,&gt;=5.0.0 in /Users/jonathanschlosser/anaconda3/lib/python3.12/site-packages (from sentence-transformers) (5.13.1)
+Requirement already satisfied: tokenizers&gt;=0.19 in /Users/jonathanschlosser/anaconda3/lib/python3.12/site-packages (from sentence-transformers) (0.22.2)
+Requirement already satisfied: huggingface-hub&lt;2.0.0,&gt;=1.3.0 in /Users/jonathanschlosser/anaconda3/lib/python3.12/site-packages (from sentence-transformers) (1.23.0)
+Requirement already satisfied: torch&gt;=2.2 in /Users/jonathanschlosser/anaconda3/lib/python3.12/site-packages (from sentence-transformers) (2.13.0)
+Requirement already satisfied: numpy&gt;=1.24.0 in /Users/jonathanschlosser/anaconda3/lib/python3.12/site-packages (from sentence-transformers) (1.26.4)
+Requirement already satisfied: scikit-learn&gt;=1.1.0 in /Users/jonathanschlosser/anaconda3/lib/python3.12/site-packages (from sentence-transformers) (1.5.1)
+Requirement already satisfied: scipy&gt;=1.0.0 in /Users/jonathanschlosser/anaconda3/lib/python3.12/site-packages (from sentence-transformers) (1.17.1)
+Requirement already satisfied: typing_extensions&gt;=4.10.0 in /Users/jonathanschlosser/anaconda3/lib/python3.12/site-packages (from sentence-transformers) (4.16.0)
+Requirement already satisfied: tqdm&gt;=4.0.0 in /Users/jonathanschlosser/anaconda3/lib/python3.12/site-packages (from sentence-transformers) (4.66.5)
+Requirement already satisfied: click&lt;9.0.0,&gt;=8.4.2 in /Users/jonathanschlosser/anaconda3/lib/python3.12/site-packages (from huggingface-hub&lt;2.0.0,&gt;=1.3.0-&gt;sentence-transformers) (8.4.2)
+Requirement already satisfied: filelock&gt;=3.10.0 in /Users/jonathanschlosser/anaconda3/lib/python3.12/site-packages (from huggingface-hub&lt;2.0.0,&gt;=1.3.0-&gt;sentence-transformers) (3.32.0)
+Requirement already satisfied: fsspec&gt;=2023.5.0 in /Users/jonathanschlosser/anaconda3/lib/python3.12/site-packages (from huggingface-hub&lt;2.0.0,&gt;=1.3.0-&gt;sentence-transformers) (2024.6.1)
+Requirement already satisfied: hf-xet&lt;2.0.0,&gt;=1.5.1 in /Users/jonathanschlosser/anaconda3/lib/python3.12/site-packages (from huggingface-hub&lt;2.0.0,&gt;=1.3.0-&gt;sentence-transformers) (1.5.1)
+Requirement already satisfied: httpx&lt;1,&gt;=0.23.0 in /Users/jonathanschlosser/anaconda3/lib/python3.12/site-packages (from huggingface-hub&lt;2.0.0,&gt;=1.3.0-&gt;sentence-transformers) (0.28.1)
+Requirement already satisfied: packaging&gt;=20.9 in /Users/jonathanschlosser/anaconda3/lib/python3.12/site-packages (from huggingface-hub&lt;2.0.0,&gt;=1.3.0-&gt;sentence-transformers) (26.2)
+Requirement already satisfied: pyyaml&gt;=5.1 in /Users/jonathanschlosser/anaconda3/lib/python3.12/site-packages (from huggingface-hub&lt;2.0.0,&gt;=1.3.0-&gt;sentence-transformers) (6.0.3)
+Requirement already satisfied: joblib&gt;=1.2.0 in /Users/jonathanschlosser/anaconda3/lib/python3.12/site-packages (from scikit-learn&gt;=1.1.0-&gt;sentence-transformers) (1.4.2)
+Requirement already satisfied: threadpoolctl&gt;=3.1.0 in /Users/jonathanschlosser/anaconda3/lib/python3.12/site-packages (from scikit-learn&gt;=1.1.0-&gt;sentence-transformers) (3.5.0)
+Requirement already satisfied: setuptools&gt;=77.0.3 in /Users/jonathanschlosser/anaconda3/lib/python3.12/site-packages (from torch&gt;=2.2-&gt;sentence-transformers) (80.10.2)
+Requirement already satisfied: sympy&gt;=1.13.3 in /Users/jonathanschlosser/anaconda3/lib/python3.12/site-packages (from torch&gt;=2.2-&gt;sentence-transformers) (1.14.0)
+Requirement already satisfied: networkx&gt;=2.5.1 in /Users/jonathanschlosser/anaconda3/lib/python3.12/site-packages (from torch&gt;=2.2-&gt;sentence-transformers) (3.3)
+Requirement already satisfied: jinja2 in /Users/jonathanschlosser/anaconda3/lib/python3.12/site-packages (from torch&gt;=2.2-&gt;sentence-transformers) (3.1.6)
+Requirement already satisfied: regex&gt;=2025.10.22 in /Users/jonathanschlosser/anaconda3/lib/python3.12/site-packages (from transformers&lt;6.0.0,&gt;=5.0.0-&gt;sentence-transformers) (2026.7.10)
+Requirement already satisfied: typer in /Users/jonathanschlosser/anaconda3/lib/python3.12/site-packages (from transformers&lt;6.0.0,&gt;=5.0.0-&gt;sentence-transformers) (0.26.8)
+Requirement already satisfied: safetensors&gt;=0.8.0 in /Users/jonathanschlosser/anaconda3/lib/python3.12/site-packages (from transformers&lt;6.0.0,&gt;=5.0.0-&gt;sentence-transformers) (0.8.0)
+Requirement already satisfied: anyio in /Users/jonathanschlosser/anaconda3/lib/python3.12/site-packages (from httpx&lt;1,&gt;=0.23.0-&gt;huggingface-hub&lt;2.0.0,&gt;=1.3.0-&gt;sentence-transformers) (4.2.0)
+Requirement already satisfied: certifi in /Users/jonathanschlosser/anaconda3/lib/python3.12/site-packages (from httpx&lt;1,&gt;=0.23.0-&gt;huggingface-hub&lt;2.0.0,&gt;=1.3.0-&gt;sentence-transformers) (2024.8.30)
+Requirement already satisfied: httpcore==1.* in /Users/jonathanschlosser/anaconda3/lib/python3.12/site-packages (from httpx&lt;1,&gt;=0.23.0-&gt;huggingface-hub&lt;2.0.0,&gt;=1.3.0-&gt;sentence-transformers) (1.0.2)
+Requirement already satisfied: idna in /Users/jonathanschlosser/anaconda3/lib/python3.12/site-packages (from httpx&lt;1,&gt;=0.23.0-&gt;huggingface-hub&lt;2.0.0,&gt;=1.3.0-&gt;sentence-transformers) (3.7)
+Requirement already satisfied: h11&lt;0.15,&gt;=0.13 in /Users/jonathanschlosser/anaconda3/lib/python3.12/site-packages (from httpcore==1.*-&gt;httpx&lt;1,&gt;=0.23.0-&gt;huggingface-hub&lt;2.0.0,&gt;=1.3.0-&gt;sentence-transformers) (0.14.0)
+Requirement already satisfied: mpmath&lt;1.4,&gt;=1.1.0 in /Users/jonathanschlosser/anaconda3/lib/python3.12/site-packages (from sympy&gt;=1.13.3-&gt;torch&gt;=2.2-&gt;sentence-transformers) (1.3.0)
+Requirement already satisfied: MarkupSafe&gt;=2.0 in /Users/jonathanschlosser/anaconda3/lib/python3.12/site-packages (from jinja2-&gt;torch&gt;=2.2-&gt;sentence-transformers) (2.1.3)
+Requirement already satisfied: shellingham&gt;=1.3.0 in /Users/jonathanschlosser/anaconda3/lib/python3.12/site-packages (from typer-&gt;transformers&lt;6.0.0,&gt;=5.0.0-&gt;sentence-transformers) (1.5.4)
+Requirement already satisfied: rich&gt;=13.8.0 in /Users/jonathanschlosser/anaconda3/lib/python3.12/site-packages (from typer-&gt;transformers&lt;6.0.0,&gt;=5.0.0-&gt;sentence-transformers) (15.0.0)
+Requirement already satisfied: annotated-doc&gt;=0.0.2 in /Users/jonathanschlosser/anaconda3/lib/python3.12/site-packages (from typer-&gt;transformers&lt;6.0.0,&gt;=5.0.0-&gt;sentence-transformers) (0.0.4)
+Requirement already satisfied: markdown-it-py&gt;=2.2.0 in /Users/jonathanschlosser/anaconda3/lib/python3.12/site-packages (from rich&gt;=13.8.0-&gt;typer-&gt;transformers&lt;6.0.0,&gt;=5.0.0-&gt;sentence-transformers) (2.2.0)
+Requirement already satisfied: pygments&lt;3.0.0,&gt;=2.13.0 in /Users/jonathanschlosser/anaconda3/lib/python3.12/site-packages (from rich&gt;=13.8.0-&gt;typer-&gt;transformers&lt;6.0.0,&gt;=5.0.0-&gt;sentence-transformers) (2.15.1)
+Requirement already satisfied: sniffio&gt;=1.1 in /Users/jonathanschlosser/anaconda3/lib/python3.12/site-packages (from anyio-&gt;httpx&lt;1,&gt;=0.23.0-&gt;huggingface-hub&lt;2.0.0,&gt;=1.3.0-&gt;sentence-transformers) (1.3.0)
+Requirement already satisfied: mdurl~=0.1 in /Users/jonathanschlosser/anaconda3/lib/python3.12/site-packages (from markdown-it-py&gt;=2.2.0-&gt;rich&gt;=13.8.0-&gt;typer-&gt;transformers&lt;6.0.0,&gt;=5.0.0-&gt;sentence-transformers) (0.1.0)
+Downloading sentence_transformers-6.0.1-py3-none-any.whl (739 kB)
+   <span style="color: rgb(114,156,31)">━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━</span> <span class="ansi-green-fg">739.8/739.8 kB</span> <span class="ansi-red-fg">8.9 MB/s</span> eta <span class="ansi-cyan-fg">0:00:00</span>
+Installing collected packages: sentence-transformers
+Successfully installed sentence-transformers-6.0.1
+</pre>
+</div>
+</div>
+</div>
+</div>
+</div><div class="jp-Cell jp-CodeCell jp-Notebook-cell" id="cell-id=eb9f78c6">
+<div class="jp-Cell-inputWrapper" tabindex="0">
+<div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
+</div>
+<div class="jp-InputArea jp-Cell-inputArea">
+<div class="jp-InputPrompt jp-InputArea-prompt">In [31]:</div>
+<div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
+<div class="cm-editor cm-s-jupyter">
+<div class="highlight hl-ipython3"><pre><span></span><span class="kn">from</span><span class="w"> </span><span class="nn">sentence_transformers</span><span class="w"> </span><span class="kn">import</span> <span class="n">SentenceTransformer</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">sklearn.metrics.pairwise</span><span class="w"> </span><span class="kn">import</span> <span class="n">cosine_similarity</span>
+
+<span class="c1"># A small, general-purpose sentence embedding model (the same one used for</span>
+<span class="c1"># RAG in the LLMs notebook).</span>
+<span class="n">sentence_model</span> <span class="o">=</span> <span class="n">SentenceTransformer</span><span class="p">(</span><span class="s2">"all-MiniLM-L6-v2"</span><span class="p">)</span>
+
+<span class="n">sentences</span> <span class="o">=</span> <span class="p">[</span>
+    <span class="s2">"The cat sat on the mat."</span><span class="p">,</span>
+    <span class="s2">"A feline was resting on the rug."</span><span class="p">,</span>      <span class="c1"># similar meaning, different words</span>
+    <span class="s2">"The stock market fell sharply today."</span><span class="p">,</span>  <span class="c1"># unrelated meaning</span>
+<span class="p">]</span>
+
+<span class="n">embeddings</span> <span class="o">=</span> <span class="n">sentence_model</span><span class="o">.</span><span class="n">encode</span><span class="p">(</span><span class="n">sentences</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">"Embedding shape per sentence: </span><span class="si">{</span><span class="n">embeddings</span><span class="o">.</span><span class="n">shape</span><span class="si">}</span><span class="s2">"</span><span class="p">)</span>
+
+<span class="n">sim_similar</span>   <span class="o">=</span> <span class="n">cosine_similarity</span><span class="p">([</span><span class="n">embeddings</span><span class="p">[</span><span class="mi">0</span><span class="p">]],</span> <span class="p">[</span><span class="n">embeddings</span><span class="p">[</span><span class="mi">1</span><span class="p">]])[</span><span class="mi">0</span><span class="p">][</span><span class="mi">0</span><span class="p">]</span>
+<span class="n">sim_unrelated</span> <span class="o">=</span> <span class="n">cosine_similarity</span><span class="p">([</span><span class="n">embeddings</span><span class="p">[</span><span class="mi">0</span><span class="p">]],</span> <span class="p">[</span><span class="n">embeddings</span><span class="p">[</span><span class="mi">2</span><span class="p">]])[</span><span class="mi">0</span><span class="p">][</span><span class="mi">0</span><span class="p">]</span>
+
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">"</span><span class="se">\n</span><span class="s2">Similarity (paraphrase, no shared words): </span><span class="si">{</span><span class="n">sim_similar</span><span class="si">:</span><span class="s2">.4f</span><span class="si">}</span><span class="s2">"</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">"Similarity (unrelated sentence):            </span><span class="si">{</span><span class="n">sim_unrelated</span><span class="si">:</span><span class="s2">.4f</span><span class="si">}</span><span class="s2">"</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+</div>
+</div>
+<div class="jp-Cell-outputWrapper">
+<div class="jp-Collapser jp-OutputCollapser jp-Cell-outputCollapser">
+</div>
+<div class="jp-OutputArea jp-Cell-outputArea">
+<div class="jp-OutputArea-child">
+<div class="jp-OutputPrompt jp-OutputArea-prompt"></div>
+<div class="jp-RenderedText jp-OutputArea-output" data-mime-type="application/vnd.jupyter.stderr" tabindex="0">
+<pre>Loading weights: 100%|██████████████████████| 103/103 [00:00&lt;00:00, 8494.83it/s]
+</pre>
+</div>
+</div>
+<div class="jp-OutputArea-child">
+<div class="jp-OutputPrompt jp-OutputArea-prompt"></div>
+<div class="jp-RenderedText jp-OutputArea-output" data-mime-type="text/plain" tabindex="0">
+<pre>Embedding shape per sentence: (3, 384)
+
+Similarity (paraphrase, no shared words): 0.5631
+Similarity (unrelated sentence):            0.0747
+</pre>
+</div>
+</div>
+</div>
+</div>
+</div>
+<div class="jp-Cell jp-MarkdownCell jp-Notebook-cell" id="cell-id=dc6d1a0e">
+<div class="jp-Cell-inputWrapper" tabindex="0">
+<div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
+</div>
+<div class="jp-InputArea jp-Cell-inputArea"><div class="jp-InputPrompt jp-InputArea-prompt">
+</div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput" data-mime-type="text/markdown">
+<h4 id="In-Practice-Today">In Practice Today<a class="anchor-link" href="#In-Practice-Today">¶</a></h4><p>A few things worth knowing if you're using embeddings outside this notebook:</p>
+<ul>
+<li><strong>Static word embeddings (Word2Vec, GloVe) are largely legacy.</strong> They are excellent for <em>learning the concepts</em> — which is why this notebook builds up through them — but contextual, transformer-based embeddings (BERT-family models, and especially dedicated sentence/document embedding models like the one above) have superseded them for anything production-grade. The out-of-vocabulary problem alone (Word2Vec/GloVe have no way to represent a word they never saw during training) is usually a dealbreaker on real-world text.</li>
+<li><strong>Most production systems don't train their own embedding model at all.</strong> They call an embedding API — OpenAI's <code>text-embedding-3-small</code>/<code>large</code>, Cohere's <code>embed</code>, Voyage AI, and others — and get back a vector for whatever text they send. This trades a small per-call cost and a network dependency for zero training or maintenance burden, and it is now the default choice for most applications.</li>
+<li><strong>Once you have embeddings for many documents, you need to search them efficiently</strong> — comparing a query against millions of stored vectors one at a time does not scale. That is what vector databases (Chroma, Pinecone, FAISS, pgvector, etc.) are for; see the Retrieval-Augmented Generation (RAG) section of the LLMs notebook for exactly this pipeline in action.</li>
+</ul>
+<p>So while the rest of this notebook builds up Word2Vec → GloVe → BERT as a history/intuition-building arc, sentence embedding models called through an API are what you would actually reach for on the job today.</p>
+</div>
+</div>
+</div>
+</div>
+<div class="jp-Cell jp-MarkdownCell jp-Notebook-cell" id="cell-id=869ead91">
+<div class="jp-Cell-inputWrapper" tabindex="0">
+<div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
+</div>
+<div class="jp-InputArea jp-Cell-inputArea"><div class="jp-InputPrompt jp-InputArea-prompt">
+</div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput" data-mime-type="text/markdown">
+<h2 id="Byte-Pair-Encoding-(BPE)">Byte Pair Encoding (BPE)<a class="anchor-link" href="#Byte-Pair-Encoding-(BPE)">¶</a></h2><p>BERT above tokenizes text with <strong>WordPiece</strong>, a subword tokenization scheme: rather than treating each word as one fixed token (as Word2Vec and GloVe do), it breaks rare or complex words into smaller pieces. <strong>Byte Pair Encoding (BPE)</strong> is the most widely used algorithm for building this kind of vocabulary, and it works on the same basic principle as WordPiece. Let's see exactly how it works.</p>
+</div>
+</div>
+</div>
+</div>
+<div class="jp-Cell jp-MarkdownCell jp-Notebook-cell" id="cell-id=de2b9838">
+<div class="jp-Cell-inputWrapper" tabindex="0">
+<div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
+</div>
+<div class="jp-InputArea jp-Cell-inputArea"><div class="jp-InputPrompt jp-InputArea-prompt">
+</div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput" data-mime-type="text/markdown">
+<p><strong>BPE</strong> is the most widely used tokenization algorithm in modern LLMs. It was originally a data compression technique from the 1990s, adapted for NLP by Sennrich et al. in 2016.</p>
+<h4 id="How-BPE-Works:">How BPE Works:<a class="anchor-link" href="#How-BPE-Works:">¶</a></h4><p>The algorithm builds its vocabulary through an iterative merging process:</p>
+<ol>
+<li><strong>Initialize:</strong> Start with a vocabulary of all individual characters (or bytes) in the training data.</li>
+<li><strong>Count pairs:</strong> Look at all adjacent token pairs in the corpus and count how often each pair appears.</li>
+<li><strong>Merge the most frequent pair:</strong> Take the most common adjacent pair and combine them into a new single token. Add this new token to the vocabulary.</li>
+<li><strong>Repeat:</strong> Go back to step 2 and continue merging until the vocabulary reaches the desired size (typically 32K–100K tokens).</li>
+</ol>
+<p><strong>Example — building a vocabulary from the word "lower":</strong></p>
+<pre><code>Starting: ['l', 'o', 'w', 'e', 'r']
+After merging 'l'+'o': ['lo', 'w', 'e', 'r']
+After merging 'lo'+'w': ['low', 'e', 'r']
+After merging 'e'+'r': ['low', 'er']
+After merging 'low'+'er': ['lower']
+</code></pre>
+<p>In practice, these merges are learned from billions of tokens of text. Frequently occurring words (like "the") become single tokens early on, while rare words remain split into subwords. The result is an efficient encoding where common patterns use fewer tokens and rare patterns gracefully decompose into smaller pieces.</p>
+<p><strong>Byte-level BPE</strong> (used by GPT-2 and all subsequent OpenAI models) starts from the 256 possible byte values rather than Unicode characters. This guarantees that any input — including emojis, special characters, or text in any language — can always be tokenized. There are never "unknown" tokens.</p>
+<h3 id="Tokenizers-Used-by-Major-LLMs">Tokenizers Used by Major LLMs<a class="anchor-link" href="#Tokenizers-Used-by-Major-LLMs">¶</a></h3><table>
+<thead>
+<tr>
+<th>Tokenizer</th>
+<th>Used By</th>
+<th>Vocabulary Size</th>
+<th>Key Feature</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>tiktoken</strong> (BPE)</td>
+<td>GPT-3.5/4, OpenAI models</td>
+<td>~100K–200K</td>
+<td>Fast Rust implementation, byte-level BPE</td>
+</tr>
+<tr>
+<td><strong>SentencePiece</strong> (BPE/Unigram)</td>
+<td>Llama, Mistral, T5</td>
+<td>32K–128K</td>
+<td>Language-agnostic, treats input as raw byte stream without pre-tokenization</td>
+</tr>
+<tr>
+<td><strong>WordPiece</strong></td>
+<td>BERT, DistilBERT</td>
+<td>30K</td>
+<td>Uses likelihood-based merges rather than frequency-based</td>
+</tr>
+</tbody>
+</table>
+<h3 id="Why-Tokenization-Matters-for-Practitioners">Why Tokenization Matters for Practitioners<a class="anchor-link" href="#Why-Tokenization-Matters-for-Practitioners">¶</a></h3><ul>
+<li><strong>Cost:</strong> API-based LLMs charge per token. A more efficient tokenizer means the same text costs less to process.</li>
+<li><strong>Context window:</strong> A 128K token context window holds more actual text if the tokenizer is efficient. Poor tokenization of your data means you can fit less content in each request.</li>
+<li><strong>Multilingual performance:</strong> Tokenizers trained primarily on English text may use 2–4× more tokens for the same content in other languages. This means non-English users get shorter effective context windows and pay more per word. Newer tokenizers include more multilingual tokens to reduce this gap.</li>
+<li><strong>Code and special content:</strong> Code, mathematical notation, and structured data (like JSON) can tokenize very differently depending on the tokenizer. A single Python keyword might be one token or several.</li>
+</ul>
+</div>
+</div>
+</div>
+</div>
+<div class="jp-Cell jp-MarkdownCell jp-Notebook-cell" id="cell-id=fa6c6d23">
+<div class="jp-Cell-inputWrapper" tabindex="0">
+<div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
+</div>
+<div class="jp-InputArea jp-Cell-inputArea"><div class="jp-InputPrompt jp-InputArea-prompt">
+</div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput" data-mime-type="text/markdown">
+<h3 id="Tokenization-in-Practice">Tokenization in Practice<a class="anchor-link" href="#Tokenization-in-Practice">¶</a></h3>
+</div>
+</div>
+</div>
+</div><div class="jp-Cell jp-CodeCell jp-Notebook-cell jp-mod-noOutputs" id="cell-id=a1d2a9ba">
+<div class="jp-Cell-inputWrapper" tabindex="0">
+<div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
+</div>
+<div class="jp-InputArea jp-Cell-inputArea">
+<div class="jp-InputPrompt jp-InputArea-prompt">In [ ]:</div>
+<div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
+<div class="cm-editor cm-s-jupyter">
+<div class="highlight hl-ipython3"><pre><span></span><span class="o">!</span>pip<span class="w"> </span>install<span class="w"> </span>tiktoken
+</pre></div>
+</div>
+</div>
+</div>
+</div>
+</div><div class="jp-Cell jp-CodeCell jp-Notebook-cell jp-mod-noOutputs" id="cell-id=7c2c03f9">
+<div class="jp-Cell-inputWrapper" tabindex="0">
+<div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
+</div>
+<div class="jp-InputArea jp-Cell-inputArea">
+<div class="jp-InputPrompt jp-InputArea-prompt">In [ ]:</div>
+<div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
+<div class="cm-editor cm-s-jupyter">
+<div class="highlight hl-ipython3"><pre><span></span><span class="kn">import</span><span class="w"> </span><span class="nn">tiktoken</span>
+
+<span class="c1"># Load the tokenizer used by GPT-4</span>
+<span class="n">enc</span> <span class="o">=</span> <span class="n">tiktoken</span><span class="o">.</span><span class="n">encoding_for_model</span><span class="p">(</span><span class="s2">"gpt-4"</span><span class="p">)</span>
+
+<span class="n">text</span> <span class="o">=</span> <span class="s2">"Large Language Models are transforming artificial intelligence."</span>
+
+<span class="c1"># Encode text into tokens</span>
+<span class="n">tokens</span> <span class="o">=</span> <span class="n">enc</span><span class="o">.</span><span class="n">encode</span><span class="p">(</span><span class="n">text</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">"Original text: </span><span class="si">{</span><span class="n">text</span><span class="si">}</span><span class="s2">"</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">"Token IDs: </span><span class="si">{</span><span class="n">tokens</span><span class="si">}</span><span class="s2">"</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">"Number of tokens: </span><span class="si">{</span><span class="nb">len</span><span class="p">(</span><span class="n">tokens</span><span class="p">)</span><span class="si">}</span><span class="s2">"</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">()</span>
+
+<span class="c1"># Decode each token individually to see how the text was split</span>
+<span class="nb">print</span><span class="p">(</span><span class="s2">"Individual tokens:"</span><span class="p">)</span>
+<span class="k">for</span> <span class="n">token_id</span> <span class="ow">in</span> <span class="n">tokens</span><span class="p">:</span>
+    <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">"  </span><span class="si">{</span><span class="n">token_id</span><span class="si">}</span><span class="s2"> -&gt; '</span><span class="si">{</span><span class="n">enc</span><span class="o">.</span><span class="n">decode</span><span class="p">([</span><span class="n">token_id</span><span class="p">])</span><span class="si">}</span><span class="s2">'"</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+</div>
+</div>
+</div><div class="jp-Cell jp-CodeCell jp-Notebook-cell jp-mod-noOutputs" id="cell-id=a6e70d5d">
+<div class="jp-Cell-inputWrapper" tabindex="0">
+<div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
+</div>
+<div class="jp-InputArea jp-Cell-inputArea">
+<div class="jp-InputPrompt jp-InputArea-prompt">In [ ]:</div>
+<div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
+<div class="cm-editor cm-s-jupyter">
+<div class="highlight hl-ipython3"><pre><span></span><span class="c1"># Compare tokenization across different text types</span>
+<span class="n">examples</span> <span class="o">=</span> <span class="p">[</span>
+    <span class="s2">"Hello, world!"</span><span class="p">,</span>
+    <span class="s2">"The quick brown fox jumps over the lazy dog."</span><span class="p">,</span>
+    <span class="s2">"supercalifragilisticexpialidocious"</span><span class="p">,</span>  <span class="c1"># Rare word</span>
+    <span class="s2">"def fibonacci(n): return n if n &lt;= 1 else fibonacci(n-1) + fibonacci(n-2)"</span><span class="p">,</span>  <span class="c1"># Code</span>
+    <span class="s2">"こんにちは世界"</span><span class="p">,</span>  <span class="c1"># Japanese (non-English uses more tokens)</span>
+<span class="p">]</span>
+
+<span class="k">for</span> <span class="n">text</span> <span class="ow">in</span> <span class="n">examples</span><span class="p">:</span>
+    <span class="n">tokens</span> <span class="o">=</span> <span class="n">enc</span><span class="o">.</span><span class="n">encode</span><span class="p">(</span><span class="n">text</span><span class="p">)</span>
+    <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">"'</span><span class="si">{</span><span class="n">text</span><span class="si">}</span><span class="s2">'"</span><span class="p">)</span>
+    <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">"  -&gt; </span><span class="si">{</span><span class="nb">len</span><span class="p">(</span><span class="n">tokens</span><span class="p">)</span><span class="si">}</span><span class="s2"> tokens: </span><span class="si">{</span><span class="p">[</span><span class="n">enc</span><span class="o">.</span><span class="n">decode</span><span class="p">([</span><span class="n">t</span><span class="p">])</span><span class="w"> </span><span class="k">for</span><span class="w"> </span><span class="n">t</span><span class="w"> </span><span class="ow">in</span><span class="w"> </span><span class="n">tokens</span><span class="p">]</span><span class="si">}</span><span class="s2">"</span><span class="p">)</span>
+    <span class="nb">print</span><span class="p">()</span>
+</pre></div>
+</div>
 </div>
 </div>
 </div>
